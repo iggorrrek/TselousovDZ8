@@ -9,11 +9,13 @@ namespace TumakovDZ
         public int id { get; }
         public decimal balanceschet { get; set; }
         private TypeSchet typeschet { get; set; }
+        BankTransaction schetperev = new BankTransaction();
         public BankAccount()
         {
             balanceschet = 0;
             typeschet = TypeSchet.obshiy;
             id = NovuyID();
+            
         }
         public BankAccount(decimal a)
         {
