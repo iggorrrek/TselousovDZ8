@@ -8,16 +8,16 @@ namespace TumakovDZ
 {
     public class BankTransaction
     {
-        public static int count = 1;
+        private static int transactionCount = 0;
 
-        static BankTransaction()
+        public BankTransaction()
         {
-            count ++ ;
-            Vuvod() ;
+            transactionCount++;
         }
-        static int Vuvod()
+
+        public static int GetTransactionCount()
         {
-            return count;
+            return transactionCount;
         }
     }
 }

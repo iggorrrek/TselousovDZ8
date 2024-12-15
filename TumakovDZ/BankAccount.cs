@@ -9,13 +9,12 @@ namespace TumakovDZ
         public int id { get; }
         public decimal balanceschet { get; set; }
         private TypeSchet typeschet { get; set; }
-        BankTransaction schetperev = new BankTransaction();
         public BankAccount()
         {
             balanceschet = 0;
             typeschet = TypeSchet.obshiy;
             id = NovuyID();
-            
+
         }
         public BankAccount(decimal a)
         {
@@ -29,18 +28,55 @@ namespace TumakovDZ
             typeschet = b;
             id = NovuyID();
         }
-        public void Snyatie(decimal value)
+        private void Snyatie(decimal value)
         {
             balanceschet -= value;
         }
-        public void Popolneniy(decimal value)
+        public void SnyatieSam(decimal value)
+        {
+            if (balanceschet > value)
+            {
+                balanceschet -= value;
+                BankTransaction schetperev = new BankTransaction();
+                Console.WriteLine($"Количество операций:{BankTransaction.GetTransactionCount()}");
+            }
+            else
+            {
+                Console.WriteLine("Вы не можете снять, вам не хватает денег на счету...");
+            }
+        }
+        private void Popolneniy(decimal value)
         {
             balanceschet += value;
+        }
+        public void PopolneniySam(decimal value)
+        {
+            balanceschet += value;
+            BankTransaction schetperev = new BankTransaction();
+            Console.WriteLine($"Количество операций:{BankTransaction.GetTransactionCount()}");
         }
         private static int NovuyID()
         {
             return idCounter++;
         }
+        public bool Perevod(BankAccount toAccount, decimal summa)
+        {
+
+            if (summa > balanceschet)
+            {
+                Console.WriteLine("Недостаточно средств.");
+                return false;
+            }
+            BankTransaction schetperev = new BankTransaction();
+            Console.WriteLine($"Количество операций:{BankTransaction.GetTransactionCount()}");
+            Snyatie(summa);
+            toAccount.Popolneniy(summa);
+            return true;
+        }
+        //static void Dispose();
+        //{
+
+        //}
         public void PrintBankAccount()
         {
             Console.WriteLine($"\nНомер счета: {id}");
